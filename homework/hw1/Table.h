@@ -14,17 +14,18 @@
 #ifndef TABLE_H
 #define TABLE_H
 
-#include "Array.h"
+#include "RowAray.h"
 class Table {
-public:
-	Table( int columns, int rows );
-	Table(const Table& orig);
-	virtual ~Table();
-	void print();
-private:
-	Array* arrays;
-	int columns;
-	int rows;
+	private:
+        int szRow;
+        int szCol;
+        RowAray **columns;
+    public:
+        Table(int,int);
+        ~Table();
+        int getSzRow(){return szRow;}
+        int getSzCol(){return szCol;}
+        int getData(int,int);
 
 };
 

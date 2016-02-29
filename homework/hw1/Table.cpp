@@ -12,30 +12,27 @@
  */
 
 #include "Table.h"
+#include "RowAray.h"
 #include <iostream>
 
-Table::Table( int columns, int rows ) {
-	arrays = new Array[rows];
+Table::Table( int rows, int cols ) {
+	this->szCol = cols;
+	this->szRow = rows;
+	this->columns = new RowAray*[rows];
 	for( int i = 0; i < rows; i++ ){
-		arrays[i].fill( columns );
+		this->columns[i] = new RowAray( cols );
 	}
-	this->columns = columns;
-	this->rows = rows;
+
 }
 
-Table::Table(const Table& orig) {
-}
 
 Table::~Table() {
-	delete [] arrays;
-}
-
-void Table::print(){
-	for( int i = 0; i < rows; i++ ){
-		arrays[i].print();
-		cout << endl;
-	}
+	delete [] this->columns;
 }
 
 
+int Table::getData(int row, int col ){
+	if( row > szRow && col > szCol ) { return -1; }
+	columns[row]->getData( col );
+}
 
