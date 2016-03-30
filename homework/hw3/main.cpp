@@ -99,3 +99,4 @@ void prntTab( const Table<T> &a ) {
 	cout << endl;
 }
 
+

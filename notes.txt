@@ -11,3 +11,91 @@ c1 <= 16+256/n + 17/n^2 + 5235/n^3 <= c2
 c1 <= 16 <= c2
 c1 = 15
 c2 = 17
+
+what we really want to know what the c2 is going to be
+
+read chapter 2 ( intro to algorithms )
+	they use insertion sort
+	he will use the mark sort
+
+	
+	
+analize mark sort
+
+
+void markSort( int *a, int n ){
+	for( int i =0; i < n-1; i++){
+		for(int j = i+1; j < n; j++ ){
+			swap
+		}
+	}
+}
+
+
+line num) C are constants
+27) Ceq = 1   //equals
+27) C< = n - 1
+28) C++ = n - 1
+28) Ceq = n - 1
+28) C< = (n - 1) ( n -1 ) / 2
+28) C++ = (n - 1) ( n -1 ) / 2
+29) Cswap = (n - 1) ( n -1 ) / 2  // this is the max time it could occur
+29) Cswap = 0   // this is the min times it could occur
+
+Ceq =1 + ( n -1 )
+C< = ( n - 1) +(n - 1) ( n -1 ) / 2
+C++ = ( n -1 ) + (n - 1) ( n -1 ) / 2
+Cswap = (n - 1) ( n -1 ) / 2
+
+T(n) = ( ( n-1 )^2 / 2 ) Cswap + ( ( ( (n-1)^2 ) / 2 ) + ( n-1 ) )  C++  +  ( ( ( (n-1)^2 ) / 2 ) + ( n-1 ) )  C< + nC(=)
+
+=C1( ((n-1)^2 ) /2) + c2( n - 1) + c3 n + c4
+=c1(n^2) + c2 n+ c3 n
+
+random 2 digits
+n		=		++		<				swap
+100	100	5049	9999		1887
+200	200	20099	39999		5387	
+400	400	80199	159999	14351
+
+100	100	5049	9999		2636
+200	200	20099	39999		9410
+400	400	80199	159999	38995
+
+
+----------- csv --------------
+random 2 digits,,,,
+n,=,++,<,swaps
+100,100,5049,9999,1887
+200,200,20099,39999,5387	
+400,400,80199,159999,14351
+random numbers,,,,
+100,100,5049,9999,2636
+200,200,20099,39999,9410
+400,400,80199,159999,38995
+------------------------------
+
+Clt ( sigma( n-2,  pos = 0 )1 + sigma( n-2,  pos = 0)(sigma( n-1, row=pos+1) 2 ) )
+Clt( (n-1) (n-1)  sigma( n-1, row=pos+1) 2 )
+Clt( (n-1) + (n -1 ) * ( n/(2 * 2) )
+Clt ( ( n -1 )( n + 1)
+Clt( 99 )( 101)
+Clt = 9999
+
+
+
+time anaylsis
+
+N				time
+40,000		7
+80,000		20
+160,000	
+
+
+
+		1sec		1min		
+n		10^6
+
+
+
+
