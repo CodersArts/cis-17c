@@ -35,10 +35,12 @@ class DoubleLink {
 	public:
 		DoubleLink();
 		virtual ~DoubleLink();
-		void push_back( T data );
-		bool pop_back();
+		void push( T data );
+		bool pop();
 		T at( int index );
 		T operator[]( int index );
+		void display();
+		bool find( T data );
 };
 
 template <class T>
@@ -60,7 +62,7 @@ DoubleLink<T>::~DoubleLink(){
 }
 
 template <class T>
-void DoubleLink<T>::push_back( T data ){
+void DoubleLink<T>::push( T data ){
 	if( !head ){
 		try{
 			Node *temp = new Node;
@@ -89,7 +91,7 @@ void DoubleLink<T>::push_back( T data ){
 }
 
 template <class T>
-bool DoubleLink<T>::pop_back(){
+bool DoubleLink<T>::pop(){
 	if( head ){ 
 		Node *newTail = tail->prev;
 		newTail->next = NULL;
@@ -134,5 +136,22 @@ void DoubleLink<T>::subError()
    exit(EXIT_FAILURE);
 }
 
+template <class T>
+void DoubleLink<T>::display(){
+	Node *current = head;
+	do{
+		cout << current->data << ", ";
+	} while( ( current = current->next ) );
+	cout << endl;
+}
+
+template <class T>
+bool DoubleLink<T>::find(T data){
+	Node *current = head;
+	do{
+		if( current->data == data ) return true;
+	} while( ( current = current->next ) );
+	return false;
+}
 #endif /* DOUBLELINK_H */
 

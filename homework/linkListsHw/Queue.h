@@ -42,6 +42,8 @@ class Queue {
 		bool pop();
 		T at( int index );
 		T operator[]( int index );
+		void display();
+		bool find( T data );
 };
 
 template <class T>
@@ -119,6 +121,25 @@ template <class T>
 T Queue<T>::operator [](int index){
 	return at( index );
 }
+
+template <class T>
+void Queue<T>::display(){
+	Node *current = head;
+	do{
+		cout << current->data << ", ";
+	} while( ( current = current->next ) );
+	cout << endl;
+}
+
+template <class T>
+bool Queue<T>::find(T data){
+	Node *current = head;
+	do{
+		if( current->data == data ) return true;
+	} while( ( current = current->next ) );
+	return false;
+}
+
 
 #endif /* QUEUE_H */
 

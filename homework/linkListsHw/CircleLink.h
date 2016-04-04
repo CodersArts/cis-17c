@@ -39,6 +39,7 @@ class CircleLink {
 		T at( int index );
 		T operator[]( int index );
 		void display();
+		bool find( T data );
 };
 
 template <class T>
@@ -134,6 +135,21 @@ void CircleLink<T>::display(){
 		cout << current->data << ", ";
 		if( current == tail ){
 			break;
+		}
+		current = current->next;
+	} while( true );
+	cout << endl;
+}
+
+template <class T>
+bool CircleLink<T>::find(T data) {
+	Node *current = head;
+	do{
+		if( current->data == data ){
+			return true;
+		}
+		if( current == tail ){
+			return false;
 		}
 		current = current->next;
 	} while( true );

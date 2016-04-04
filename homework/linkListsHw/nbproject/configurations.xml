@@ -7,7 +7,9 @@
       <itemPath>CircleLink.h</itemPath>
       <itemPath>DoubleLink.h</itemPath>
       <itemPath>Node.h</itemPath>
+      <itemPath>PriorityList.h</itemPath>
       <itemPath>Queue.h</itemPath>
+      <itemPath>SortedList.h</itemPath>
       <itemPath>Stack.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
@@ -47,7 +49,11 @@
       </item>
       <item path="Node.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="PriorityList.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Queue.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SortedList.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Stack.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -80,7 +86,11 @@
       </item>
       <item path="Node.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="PriorityList.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Queue.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SortedList.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Stack.h" ex="false" tool="3" flavor2="0">
       </item>
