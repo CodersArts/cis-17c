@@ -100,5 +100,7 @@ n		10^6
 
 
 ~~~~~~~~~~~~~~~
+formula for pascals triangle see picture in phone also
+
 nCk = N!/ ((n-k)!k!) = n-1Ck-1 + n-1 C k
 
