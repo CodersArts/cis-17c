@@ -20,11 +20,11 @@
 
 using namespace std;
 struct Analize{
-	int ceq;
-	int ccmp;
-	int cinc;
+	unsigned long ceq;
+	unsigned long ccmp;
+	unsigned long cinc;
 	Analize() : ceq(0), ccmp(0), cinc(0) {};
-	int total(){
+	unsigned long total(){
 		return ceq + ccmp + cinc;
 	};
 	void print(){ 
@@ -43,11 +43,14 @@ int *fillArray( int );
 int *fillArray( int, bool );
 bool linear( int find, int* arr, int size, Analize* an );
 bool binary( int find, int* arr, Analize* an, int start, int end );
+void p6();
+void markSort( int *a, int size, Analize* an );
+void print( int *a, int n );
 
 int main( int argc, char** argv ) {
 	srand( time( 0 ) );
 	
-	p5();
+	p6();
 	return 0;
 }
 
@@ -148,4 +151,57 @@ int *fillArray( int size, bool sorted ){
 	} catch( bad_alloc& ba ){
 		 cerr << "bad_alloc caught: " << ba.what() << endl;
 	}
+}
+
+
+void p6(){
+	int size = 100000;
+	int* array = fillArray( size );
+	uint64 start, end;
+//	print( array, size );
+	cout << endl;
+	Analize* an = new Analize;
+	
+	start = GetTimeMs64();
+	markSort( array, size, an );
+	end = GetTimeMs64();
+	an->print();
+	long derp = ( end - start ); //because doing it a cout wont give me the time
+	cout << "Total time = " << derp << "(ms) with n = " << size << " and only sorting " << ( size * 0.1 ) << endl;
+//	print( array, size );
+	cout << endl;
+	delete [] array;
+	delete an;
+	
+}
+
+void markSort( int *a, int size, Analize* an ){
+    //Declare variables
+    int cswap=0;
+    an->ceq++;
+	int stop = size * 0.1;
+    for( int pos = 0; pos < stop; pos++ ){
+        an->ccmp++;
+        an->cinc++;
+        an->ceq++;
+        for(int row = pos + 1; row < size; row++ ){
+            an->ccmp++;
+            an->cinc++;
+            if( *( a + pos ) > *( a + row ) ){
+                int temp = *( a + row );
+                a[row] = a[pos];
+                *( a + pos ) = temp;
+                cswap++;
+            }
+            an->ccmp++;
+        }
+    }
+    cout << "swaps: " << cswap << endl;
+}
+
+void print( int *a, int n ){
+	for( int i = 0; i < n; i++ ){
+		cout << a[i] << ", ";
+	}
+	cout << endl;
 }
