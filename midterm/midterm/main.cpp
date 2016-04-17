@@ -15,6 +15,8 @@
 #include <ctime>
 #include <iostream>
 #include <new>
+#include <sys/time.h>
+#include "preciseClock.h"
 
 using namespace std;
 struct Analize{
@@ -44,7 +46,7 @@ bool binary( int find, int* arr, Analize* an, int start, int end );
 
 int main( int argc, char** argv ) {
 	srand( time( 0 ) );
-
+	
 	p5();
 	return 0;
 }
@@ -64,17 +66,22 @@ void p2(){
 }
 
 void p5(){
-	int size = 1000;
-	int* array = fillArray( size );
+	int size = 7500000;
+	int* array = fillArray( size, true );
+	uint64 start, end;
 //	for( int i = 0; i < size; i++ ){
 //		cout << array[i] << ", ";
 //	}
 //	cout << endl;
 	Analize* linearAn = new Analize;
-	int find = rand() % size;
+	int find = array[size-1];
+	start = GetTimeMs64();
 	cout << "found: " << ( linear( find, array, size, linearAn ) ? "t\n" : "f\n" );
+	end = GetTimeMs64();
 	cout << "linear find : " << find << endl;
 	linearAn->print();
+	long derp = ( end - start ); //because doing it a cout wont give me the time
+	cout << "Total time = " << derp << "(ms) with n = " << size << endl;
 	delete [] array;
 	delete linearAn;
 	
@@ -86,9 +93,13 @@ void p5(){
 //	}
 //	cout << endl;
 	Analize* binaryAn = new Analize;
+	start = GetTimeMs64();
 	cout << "found: " << ( binary( find, array, binaryAn, 0, size - 1 ) ? "t\n" : "f\n" );
+	end = GetTimeMs64();
 	cout << "binary find : " << find << endl;
 	binaryAn->print();
+	derp = ( end - start ); //because doing it a cout wont give me the time
+	cout << "Total time = " << derp << "(ms) with n = " << size << endl;
 	delete [] array;
 	delete binaryAn;
 }
