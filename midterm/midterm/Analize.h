@@ -15,15 +15,16 @@
 #define ANALIZE_H
 
 #include <iostream>
-
+typedef long long int64;
+typedef unsigned long long uint64;
 using namespace std;
 
 struct Analize{
-	unsigned long ceq;
-	unsigned long ccmp;
-	unsigned long cinc;
+	uint64 ceq;
+	uint64 ccmp;
+	uint64 cinc;
 	Analize() : ceq(0), ccmp(0), cinc(0) {};
-	unsigned long total(){
+	uint64 total(){
 		return ceq + ccmp + cinc;
 	};
 	void print(){ 
