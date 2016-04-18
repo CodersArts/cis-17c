@@ -17,23 +17,11 @@
 #include <new>
 #include <sys/time.h>
 #include "preciseClock.h"
+#include "vectors.h"
+#include "Analize.h"
 
 using namespace std;
-struct Analize{
-	unsigned long ceq;
-	unsigned long ccmp;
-	unsigned long cinc;
-	Analize() : ceq(0), ccmp(0), cinc(0) {};
-	unsigned long total(){
-		return ceq + ccmp + cinc;
-	};
-	void print(){ 
-		cout << "C Equals: " << ceq << endl;
-		cout << "C Compares: " << ccmp << endl;
-		cout << "C Increments: " << cinc << endl;
-		cout << "C Total: " << total() << endl;
-	};
-};
+
 
 void p1();
 void p2();
@@ -46,11 +34,13 @@ bool binary( int find, int* arr, Analize* an, int start, int end );
 void p6();
 void markSort( int *a, int size, Analize* an );
 void print( int *a, int n );
+void p7();
+int getRand( int );
 
 int main( int argc, char** argv ) {
 	srand( time( 0 ) );
 	
-	p6();
+	p7();
 	return 0;
 }
 
@@ -153,7 +143,6 @@ int *fillArray( int size, bool sorted ){
 	}
 }
 
-
 void p6(){
 	int size = 100000;
 	int* array = fillArray( size );
@@ -204,4 +193,35 @@ void print( int *a, int n ){
 		cout << a[i] << ", ";
 	}
 	cout << endl;
+}
+
+void p7(){
+	int size = 10;
+//	SimpleVector<int> vec( size );
+//	Analize* simpleAn = new Analize;
+//	for( int i = 0; i < size; i++ ){
+//		int t = getRand( size );
+//		vec.pushSort( t, simpleAn );
+//	}
+//	simpleAn->print();
+//	delete simpleAn;
+//	Vector<int> vec;
+//	Analize* vecAn = new Analize;
+//	for( int i = 0; i < size; i++ ){
+//		vec.pushBack( getRand( size ), vecAn );
+//	}
+//	vecAn->print();
+//	delete vecAn;
+	LinkList<int> ll;
+	Analize* llAn = new Analize;
+	for( int i = 0; i < size; i++ ){
+		ll.pushSort( getRand( size ), llAn );
+	}
+	llAn->print();
+	delete llAn;
+//	ll.display();
+}
+
+int getRand( int size ){
+	return rand() % size;
 }
