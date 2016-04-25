@@ -104,3 +104,46 @@ formula for pascals triangle see picture in phone also
 
 nCk = N!/ ((n-k)!k!) = n-1Ck-1 + n-1 C k
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+4/20/16
+
+1-3
+hand test
+walk through and take a number and walk through 
+if u input 5 go through the intermediate results
+
+
+the power function i want that order log(N)
+
+all i want you to do is test it by hand first then code it
+
+
+for the graphing i did it with operations only and not time
+there are ways that you can extend it by putting it in a loop
+
+
+on the back page, when you say anaylsis
+he also wants you to do the sum of the consants
+ like 
+ C+ c- c= c< c* c/ c% 
+ each on of those will take a certain amount of time on the computer to do. we dont know what those are
+ 
+ sigma( w=1, M, sigma( i=1, n, 2C+ + c/ + c% ) )
+ can replace this on operation with
+ sigma( w=1, M, sigma( i=1, n,  4C ) )
+ 
+its very important that he is able to follow what i am doing
+
+for the binary you need to include the sort efficency too
+
+
+binary search is = O(logN)
+
+O(N^2ogN) > O(n^2)  > O(NogN) >  O(logN)
+
+
+turn in all next week
+
+for 1,3 we are to increment -1 <= x <= 1 with the change in x being 10^-1
+
+ 

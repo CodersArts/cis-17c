@@ -28,7 +28,7 @@ void p1( );
 float p1G( float x, Analize* );
 void p2( );
 void p3( );
-int power( int, unsigned int );
+float power( float, unsigned int );
 float p3G( float, Analize* );
 float p3H( float, Analize* );
 void p5( );
@@ -37,6 +37,7 @@ int *fillArray( int, bool );
 bool linear( int find, int* arr, int size, Analize* an );
 bool binary( int find, int* arr, Analize* an, int start, int end );
 void p6( );
+void fullSort( int *a, int size, Analize* an );
 void markSort( int *a, int size, Analize* an );
 void print( int *a, int n );
 void p7( );
@@ -45,24 +46,24 @@ int getRand( int );
 int main( int argc, char** argv ) {
 	srand( time( 0 ) );
 
-//	p1( );
+//	p1();
 //	p2();
 //	p3();
-//	p5();
+	p5();
 //	p6();
-	p7();
+//	p7();
 	return 0;
 }
 void p1( ) {
-	int size = 8e6;
+	int size = 1;
 	Analize* an = new Analize;
 	int cbeg = time( 0 );
-	for ( int i = 0; i < size; i++ ) {
-		p1G( .1, an );
+	for ( float i = -1; i <= 1; i+= .1 ) {
+		cout << i << " = " << p1G( i, an ) << endl;
 	}
 	int cend = time( 0 );
-	cout << "Total time = " << cend - cbeg << "(secs) with n = " << size << endl;
-	an->print( );
+//	cout << "Total time = " << cend - cbeg << "(secs) with n = " << size << endl;
+//	an->print( );
 	delete an;
 	//	cout << p1G( .1) <<  endl;;
 }
@@ -70,22 +71,24 @@ void p1( ) {
 float p1G( float x, Analize* an ) {
 	an->ccmp++;
 	if ( abs( x ) < 10e-6 ) {
+		//cout << "g(" << 2*x << ") = " << x << " + ( ( " << x << "^3 ) / 6 )\n";
 		return x + ( ( x * x * x ) / 6 );
 	}
 	an->ceq++;
 	float y = p1G( x / 2, an );
-	return ( 2 * y ) / ( 1 + ( y * y ) );
+	//cout << "g(" << 2*x << ") = ( 2 * g(" << x << ") ) / ( 1 + ( g^2(" << x << ") )\n";
+	return ( 2 * y ) / ( 1 + ( y *  y ) );
 }
 
 void p2( ) {
-	cout << power( -2, 2 ) << endl;
+	cout << power( 0.5, 2 ) << endl;
 }
 
-int power( int x, unsigned int y ) {
+float power( float x, unsigned int y ) {
 	if ( y == 0 ) {
 		return 1;
 	}
-	int temp = power( x, y / 2 );
+	float temp = power( x, y / 2 );
 	if ( y % 2 == 0 ) {
 		return temp * temp;
 	} else {
@@ -97,46 +100,49 @@ void p3( ) {
 	int size = 8000;
 	Analize* an = new Analize;
 	int cbeg = time( 0 );
-	for( int i = 0; i < size; i++ ){
-		p3G( .1, an );
+	for( float i = -1; i <= 1; i+=.1){
+		cout << i << " = " << p3G( i, an ) << endl;;
 	}
 	int cend = time( 0 );
 	cout << "Total time = " << cend - cbeg << "(secs) with n = " << size << endl;
 	an->print( );
 	delete an;
-	
 }
 
 float p3G( float x, Analize* an ) {
 	an->ccmp++;
 	if ( abs( x ) < 10e-6 ) {
-		return x + ( ( x * x * x ) / 2 );
+//		cout << "g(" << 2*x << ") = " << x << " + ( (" << x << "^3 ) / 6 )\n";
+		return x + ( ( x * x * x ) / 6 );
 	}
 	an->ceq+=2;
 	float y = p3G( x / 2, an );
 	float z = p3H( x / 2, an );
+//	cout << "g(" << 2*x << ") = " << "2 * g(" << x / 2 << ") * h(" << x / 2 << ")\n";
 	return 2 * y * z;
 }
 
 float p3H( float x, Analize* an ) {
 	an->ccmp++;
 	if ( abs( x ) < 10e-6 ) {
+//		cout << "h(" << 2*x << ") = " << "1 + ( (" << x << "^2 ) / 2 )\n";
 		return 1 + ( ( x * x ) / 2 );
 	}
 	an->ceq+=2;
 	float y = p3G( x / 2, an );
 	float z = p3H( x / 2, an );
+//	cout << "h(" << 2*x << ") = " << "h^2(" << x/2 << ") * g^2(" << x/2 << ")\n";
 	return ( z * z ) + ( y * y );
 }
 
 void p5( ) {
 	int size = 100;
 	int times = 8e6;
-	int* array = fillArray( size, true );
+	int* array = fillArray( size );
 	uint64 start, end;
 	
 	Analize* linearAn = new Analize;
-	int find = array[size - 1];
+	int find = -500;//array[size - 1];
 	start = GetTimeMs64( );
 	for( int i = 0; i < times; i++ ){
 		linear( find, array, size, linearAn);
@@ -146,21 +152,26 @@ void p5( ) {
 	linearAn->print( );
 	long derp = ( end - start ); //because doing it a cout wont give me the time
 	cout << "Total time = " << derp << "(ms) with n = " << times << endl;
-	delete [] array;
 	delete linearAn;
 
 	cout << "\n\n";
 
-	array = fillArray( size, true );
 	Analize* binaryAn = new Analize;
 	start = GetTimeMs64( );
+	int offset = 0;
 	for( int i = 0; i < times; i++ ){
+		fullSort( array, size, binaryAn );
 		binary( find, array, binaryAn, 0, size - 1 );
+		int os = GetTimeMs64();
+		delete [] array;
+		array = fillArray( size );
+		int oe = GetTimeMs64();
+		offset += ( oe - os );
 	}
 	end = GetTimeMs64( );
 	cout << "binary find : " << find << endl;
 	binaryAn->print( );
-	derp = ( end - start ); //because doing it a cout wont give me the time
+	derp = ( end - start ) - offset; //because doing it a cout wont give me the time
 	cout << "Total time = " << derp << "(ms) with n = " << times << endl;
 	delete [] array;
 	delete binaryAn;
@@ -240,9 +251,28 @@ void p6( ) {
 	cout << endl;
 	delete [] array;
 	delete an;
-
 }
 
+void fullSort( int *a, int size, Analize* an ){
+	an->ceq++;
+	int stop = size * 0.01;
+	for ( int pos = 0; pos < stop; pos++ ) {
+		an->ccmp++;
+		an->cinc++;
+		an->ceq++;
+		for ( int row = pos + 1; row < size; row++ ) {
+			an->ccmp++;
+			an->cinc++;
+			if ( *( a + pos ) > *( a + row ) ) {
+				int temp = *( a + row );
+				a[row] = a[pos];
+				*( a + pos ) = temp;
+				an->ceq+=3;
+			}
+			an->ccmp++;
+		}
+	}
+}
 void markSort( int *a, int size, Analize* an ) {
 	//Declare variables
 	int cswap = 0;
