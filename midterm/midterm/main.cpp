@@ -47,9 +47,9 @@ int main( int argc, char** argv ) {
 	srand( time( 0 ) );
 
 //	p1();
-//	p2();
+	p2();
 //	p3();
-	p5();
+//	p5();
 //	p6();
 //	p7();
 	return 0;
@@ -81,7 +81,13 @@ float p1G( float x, Analize* an ) {
 }
 
 void p2( ) {
-	cout << power( 0.5, 2 ) << endl;
+//	cout << power( 0.5, 2 ) << endl;
+	for( int i = 0; i < 11; i++ ){
+		cout << i << " = " << power( 2, i) << endl;
+	}
+	for( int i = -10; i < 11; i++ ){
+		cout << i << " = " << power( i, 2) << endl;
+	}
 }
 
 float power( float x, unsigned int y ) {
