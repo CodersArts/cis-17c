@@ -17,6 +17,8 @@
 #include <map>
 #include <set>
 #include <queue>
+#include <fstream>
+#include <list>
 
 using namespace std;
 
@@ -29,6 +31,8 @@ private:
 	int numPoles;
 	bool guided;
 	bool isSolved;
+	int moves;
+	list<int> scores;
 	queue< pair< char, char > > steps;
 	void towers(int, char, char, char);
 public:
@@ -38,6 +42,7 @@ public:
 		this->disks = disks;
 		this->guided = false;
 		this->isSolved = false;
+		this->moves = 0;
 		//init the disks
 		diskSet first;
 		for ( int i = 1; i <= disks; i++ ) {
@@ -91,6 +96,11 @@ public:
 			cout << "Invalid Input\n";
 			return false;
 		}
+		
+		//check that you didn't put it in twice
+		if( src == dest ){
+			return false;
+		}
 		//if the ending value for the src is greater than the destination than cant do that move
 //		cout << *( poles.at( src ).begin() ) << endl;
 		//check if the source is not empty than proceed
@@ -101,6 +111,7 @@ public:
 				int value = *( poles.at( src ).begin() );
 				poles.at( src ).erase( value );
 				poles.at( dest ).insert( value );
+				moves++;
 				return true;
 			} else {
 				//if the top element at src is larger than the top element at the dest is larger fail it
@@ -110,6 +121,7 @@ public:
 					int value = *( poles.at( src ).begin() );
 					poles.at( src ).erase( value );
 					poles.at( dest ).insert( value );
+					moves++;
 					return true;
 				}
 			}
@@ -126,6 +138,60 @@ public:
 			isSolved = true;
 		}
 	}
+	
+	bool won(){
+		if( poles.at( 1 ).empty() && poles.at( 2 ).empty() ){
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	int getMoves(){
+		return moves;
+	}
+	
+	bool isGuided(){
+		return guided;
+	}
+	
+	pair<char, char> pop(){
+		pair<char, char> temp = steps.front();
+		steps.pop();
+		return temp;
+	}
+	
+	void save(){
+		scores.push_back( moves );
+		scores.sort();
+	}
+	
+	void displayScores(){
+		int j = 1;
+		cout << "Scores\n";
+		for( list<int>::iterator i = scores.begin(); i != scores.end(); ++i ){
+			cout << j++ << ": Moves " << *i << endl;
+		}
+	}
+	
+	void reset(){
+		this->disks = disks;
+		this->guided = false;
+		this->isSolved = false;
+		this->moves = 0;
+		poles.clear();
+		//init the disks
+		diskSet first;
+		for ( int i = 1; i <= disks; i++ ) {
+			first.insert( i );
+		}
+		poles.insert( pair< int, diskSet >( 1, first ) );
+		for ( int i = 2; i <= numPoles; i++ ) {
+			diskSet tempSet;
+			poles.insert( pair< int, diskSet >( i, tempSet ) );
+		}
+	}
+	
 };
 
 void Game::towers(int nDisk, char src, char spare, char dest) {
