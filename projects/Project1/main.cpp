@@ -28,7 +28,7 @@ void won( Game* );
 void clear();
 
 int main( int argc, char** argv ) {
-	cout << "\033[41m" << "~~ For best results run in external terminal ~~" << "\033[49m" << endl;
+	cout << "\033[41m" << "~~ For best results run in external terminal ~~" << "\033[49m \n\n";
 	int inInt = 2;
 	printf( "Enter number of disks: " );
 	cin >> inInt;
@@ -50,6 +50,7 @@ void runGame( Game* game ){
 	if( inStr.compare( "y" ) == 0 ){
 		game->setGuided( true );
 	}
+	clear();
 	while( isRunning ){
 		game->print();
 		cout << endl;
@@ -76,8 +77,8 @@ void runGame( Game* game ){
 		clear();
 		//check if we won
 		if( game->won() ){
-			//todo do something
-			cout << "You won!\nIn " << game->getMoves() << " moves.\n";
+			game->print();
+			cout << "\nYou won!\nIn " << game->getMoves() << " moves.\n";
 			isRunning = false;
 			if( !game->isGuided() ){
 				game->save();

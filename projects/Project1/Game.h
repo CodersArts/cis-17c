@@ -116,30 +116,7 @@ public:
 		cout << item << "\033[39m";
 		#endif
 	}
-	/*
-	string color( int i ){
-		#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-		int k;
-		switch( i ){
-			case 0: k = 12; break;
-			case 1: k = 10; break;
-			case 2: k = 9;  break;
-			default: k = 15; break;;
-		}
-		HANDLE hConsole;
-		hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-		SetConsoleTextAttribute(hConsole, k);
-		return "";
-		#else
-		switch( i ){
-			case 0: return "\033[31m";
-			case 1: return "\033[32m";
-			case 2: return "\033[34m";
-			default: return "\033[39m";
-		}
-		#endif
-	}
-	*/
+
 	void solution() {
 		if( !isSolved ){
 			towers( disks, 'a', 'b', 'c' );
@@ -153,8 +130,8 @@ public:
 	
 	bool move( char _src, char _dest ){
 		//check both valid and conver to numbers
-		int src = (int)_src - 96;
-		int dest = (int)_dest - 96;//todo lowercase
+		int src = (int) ( tolower( _src ) ) - 96;
+		int dest = (int) ( tolower( _dest ) )  - 96;
 		if( src < 1 || src > numPoles ){
 			cout << "Invalid Input\n";
 			return false;
@@ -266,7 +243,6 @@ void Game::towers(int nDisk, char src, char spare, char dest) {
 		towers( nDisk - 1, src, dest, spare );
 	}
 	steps.push( pair<char, char>( src, dest ) );
-//	cout << "Move -> " << src << " to -> " << dest << endl;
 	if ( nDisk > 1 ) {
 		towers( nDisk - 1, spare, src, dest );
 	}
