@@ -1,0 +1,8 @@
+[31mhello[39m
+[32mhello[39m
+[33mhello[39m
+[34mhello[39m
+[35mhello[39m
+[36mhello[39m
+[37mhello[39m
+[38mhello[39m

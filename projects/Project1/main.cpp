@@ -25,10 +25,14 @@ using namespace std;
 
 void runGame( Game* game );
 void won( Game* );
+void clear();
+
 int main( int argc, char** argv ) {
+	cout << "\033[41m" << "~~ For best results run in external terminal ~~" << "\033[49m" << endl;
 	int inInt = 2;
-//	printf( "Enter number of disks: " );
-//	cin >> inInt;
+	printf( "Enter number of disks: " );
+	cin >> inInt;
+	cin.ignore();
 	Game *game = new Game( inInt );
 	runGame( game );
 	delete game;
@@ -48,6 +52,7 @@ void runGame( Game* game ){
 	}
 	while( isRunning ){
 		game->print();
+		cout << endl;
 		if( game->isGuided() ){
 			pair<char, char> move = game->pop();
 			cout << "Perfect move is " << move.first << " to " << move.second << endl;
@@ -64,9 +69,11 @@ void runGame( Game* game ){
 		if( !game->move( inStr[0], temp[0] ) ){
 			//invalid move
 			cout << "Can not move that disk\n";
-//			isRunning = false;
+			if( temp[0] == 'z' ){
+				isRunning = false;
+			}
 		} 
-		system( "CLS" );
+		clear();
 		//check if we won
 		if( game->won() ){
 			//todo do something
@@ -97,6 +104,21 @@ void won( Game *game ) {
 		cin.ignore( );
 		runGame( game );
 	}
+}
+
+void clear(){
+	//clear the terminal
+
+	#ifdef _WIN32
+//	system( "CLS" ); //this breaks stuff in netbeans
+	for( int i = 0; i < 50; i++ ){
+		cout <<endl;
+	}
+	#else
+	system( "clear" );
+	#endif
+
+	
 }
 
 /*

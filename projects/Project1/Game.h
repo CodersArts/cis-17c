@@ -19,6 +19,9 @@
 #include <queue>
 #include <fstream>
 #include <list>
+#ifdef _WIN32
+#include <windows.h>
+#endif
 
 using namespace std;
 
@@ -59,20 +62,84 @@ public:
 	};
 
 	void print() {
-//		diskSet::iterator setIts[numPoles];
-//		int j = 0;
-		string abc = "ABC";
-		int k = 0;
+		diskSet::iterator setIts[numPoles];
+		int j = 0;
 		for ( map< int, diskSet >::iterator i = poles.begin( ); i != poles.end( ); ++i ) {
-//			setIts[j++] = i->second.begin();
-			cout << abc[k++] << ":  ";
-			for ( diskSet::reverse_iterator setIt = i->second.rbegin( ); setIt != i->second.rend( ); ++setIt ) {
-				cout << *setIt << ", ";
+			setIts[j++] = i->second.begin();
+		}
+//		int j = 0;
+		//need to find the max size
+		int highest = max( poles[1].size(), max( poles[2].size(), poles[3].size() ) );
+		for( int layer = highest; layer > 0; layer-- ){
+			j = 0;
+			for ( map< int, diskSet >::iterator i = poles.begin( ); i != poles.end( ); ++i ) {
+				if( i->second.size() >= layer ){
+					color( j, *(setIts[j]++) );
+					color( j, "\t" );
+					//cout << color(j) << *(setIts[j]++) << color(-1) << '\t';
+				} else {
+					color( j, " \t");
+				}
+				j++;
 			}
 			cout << endl;
-		}		
+		}
+//		cout << "A\tB\tC" << endl;
+		color( 0, "A\t");
+		color( 1, "B\t");
+		color( 2, "C\t");
 	}
 
+//	string color(){ return color(-1);}
+	template<class T>
+	void color( int i, T item ){
+		#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+		int k;
+		switch( i ){
+			case 0: k = 12; break;
+			case 1: k = 10; break;
+			case 2: k = 9;  break;
+			default: k = 0; break;;
+		}
+		HANDLE hConsole;
+		hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+		SetConsoleTextAttribute(hConsole, k);
+		cout << item;
+		SetConsoleTextAttribute(hConsole, 15);
+		#else
+		switch( i ){
+			case 0:  cout << "\033[31m"; break;
+			case 1:  cout << "\033[32m"; break;
+			case 2:  cout << "\033[34m"; break;
+			default: cout << "\033[39m";
+		}
+		cout << item << "\033[39m";
+		#endif
+	}
+	/*
+	string color( int i ){
+		#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+		int k;
+		switch( i ){
+			case 0: k = 12; break;
+			case 1: k = 10; break;
+			case 2: k = 9;  break;
+			default: k = 15; break;;
+		}
+		HANDLE hConsole;
+		hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+		SetConsoleTextAttribute(hConsole, k);
+		return "";
+		#else
+		switch( i ){
+			case 0: return "\033[31m";
+			case 1: return "\033[32m";
+			case 2: return "\033[34m";
+			default: return "\033[39m";
+		}
+		#endif
+	}
+	*/
 	void solution() {
 		if( !isSolved ){
 			towers( disks, 'a', 'b', 'c' );
@@ -87,7 +154,7 @@ public:
 	bool move( char _src, char _dest ){
 		//check both valid and conver to numbers
 		int src = (int)_src - 96;
-		int dest = (int)_dest - 96;
+		int dest = (int)_dest - 96;//todo lowercase
 		if( src < 1 || src > numPoles ){
 			cout << "Invalid Input\n";
 			return false;
