@@ -83,9 +83,9 @@ bool isSolvable(string infix) {
 					}
 				}
 			}
-			token.next( );
-			return false;
+//			return false;
 		}
+		token.next( );
 	}
 	if ( parenthesise != 0 ) {
 		error = true;
@@ -95,7 +95,7 @@ bool isSolvable(string infix) {
 
 string convert(string infix) {
 	if ( !isSolvable( infix ) ) {
-		cout << infix << " is not solvable!";
+		cout << infix << " is not solvable!\n";
 		return "";
 	}
 

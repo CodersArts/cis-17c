@@ -101,6 +101,11 @@ void ExpressionTree::create( string postfix, bool isPostfix ) {
 			root = NULL;
 		}
 	} else {
+		string temp = convert( postfix );
+		if( temp == "" ){
+			cout << "invalid equation\n";
+			return;
+		}
 		create( convert( postfix ), true );
 	}
 }
