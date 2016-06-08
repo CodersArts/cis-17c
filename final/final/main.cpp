@@ -211,32 +211,39 @@ float g( float angR, Stack<char> *stack ) { //cosh
 //p4 fns
 
 void p4( ) {
-	int size = 10;
+	int size = 1000;
 	short *master = fill( size );
 	short *arr = copyArr( master, size );
-	print( arr, size );
+//	print( arr, size );
 	mt::uint count = 0;
 	bubbleSort( arr, size, count );
-	cout << "bubble operations: " << count << endl;
+	cout << "bubblesort operations: " << count << endl;
 	delete [] arr;
 	arr = copyArr( master, size );
 
 	count = 0;
 	quickSort( arr, size, count );
-	cout << "quick operations: " << count << endl;
+	cout << "quicksort operations: " << count << endl;
 	delete [] arr;
 	arr = copyArr( master, size );
 
 	count = 0;
 	mergeSort( arr, size, count );
-	cout << "merge operations: " << count << endl;
+	cout << "merge sort operations: " << count << endl;
 	delete [] arr;
 	arr = copyArr( master, size );
 
 	count = 0;
-	//    heapSort( arr, size, count );
-	cout << "heap operations: " << count << endl;
-	print( arr, 10 );
+	markSort( arr, size, count );
+	cout << "marksort operations: " << count << endl;
+	delete [] arr;
+	arr = copyArr( master, size );
+	
+	count = 0;
+	partialSort( arr, size, size * 0.10, count );
+	cout << "partial sort operations: " << count << endl;
+	print( arr, size );
+
 	delete [] arr;
 	delete [] master;
 }

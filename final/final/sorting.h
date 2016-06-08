@@ -22,10 +22,8 @@ void pquickSort(short *a, int left, int right, mt::uint &count);
 void mergeSort(short *a, int size, mt::uint &count);
 void pmergeSort(short *a, short *temp, int left, int right, mt::uint &count);
 void mergeCompare(short *a, short *temp, int left, int center, int right, mt::uint &count);
-void heapSort(short * array, int size, mt::uint &count );
-void pheapSort(short * array, int size, int &heapN, mt::uint &count );
-void heapify(short * array, int size, int &heapN);
-void maxHeap(short *array, int i, int &heapN);
+void markSort( short *a, int size, mt::uint &count );
+void partialSort( short *a, int size, int stop, mt::uint &count );
 void print(short *arr, int size);
 
 void bubbleSort(short *array, int size, mt::uint &count) {
@@ -153,48 +151,36 @@ void mergeCompare(short *a, short *temp, int left, int center, int right, mt::ui
     }
 }
 
-void heapSort(short * array, int size, mt::uint &count ){
-    int heapN = 0;
-    pheapSort( array, size, heapN, count );
-}
-void pheapSort(short * array, int size, int &heapN, mt::uint &count ) {
-    //make the heap
-    heapify(array, size, heapN);
-    for (int i = heapN; i > 0; i--) {
-        short temp = array[0];
-        array[0] = array[i];
-        array[i] = temp;
-        heapN--;
-        maxHeap(array, 0, heapN );
-    }
-}
-
-void heapify(short *array, int size, int &heapN ) {
-    heapN = size - 1;
-    for (int i = heapN / 2; i >= 0; i--) {
-        maxHeap(array, i, heapN );
-    }
+void markSort( short *a, int size, mt::uint &count ){
+	count+2;
+	for ( int pos = 0; pos < size; pos++ ) {
+		count+=3;
+		for ( int row = pos + 1; row < size; row++ ) {
+			count+=3;
+			if ( *( a + pos ) > *( a + row ) ) {
+				count+=3;
+				int temp = *( a + row );
+				a[row] = a[pos];
+				*( a + pos ) = temp;
+			}
+		}
+	}
 }
 
-//swap the largest element in heap
-
-void maxHeap(short * array, int i, int &heapN) {
-    int left = 2 * i;
-    int right = 2 * i + 1;
-    int max = i;
-    if (left <= heapN && array[left] > array[right]) {
-        max = left;
-    }
-    if (right <= heapN && array[right] > array[max]) {
-        max = right;
-    }
-
-    if (max != i) {
-        short temp = array[i];
-        array[i] = array[max];
-        array[max] = temp;
-        maxHeap(array, max, heapN );
-    }
+void partialSort( short *a, int size, int stop, mt::uint &count ){
+	count+2;
+	for ( int pos = 0; pos < stop; pos++ ) {
+		count+=3;
+		for ( int row = pos + 1; row < size; row++ ) {
+			count+=3;
+			if ( *( a + pos ) > *( a + row ) ) {
+				count+=3;
+				int temp = *( a + row );
+				a[row] = a[pos];
+				*( a + pos ) = temp;
+			}
+		}
+	}
 }
 
 void print(short *arr, int size) {
