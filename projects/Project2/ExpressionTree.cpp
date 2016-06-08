@@ -29,9 +29,16 @@ using namespace std;
 //}
 
 ExpressionTree::~ExpressionTree( ) {
-	helper( root );
+	//helper( root ); //helper no longer works again
+	if( root ){
+		delete root; 
+		//this is the right way because we call the destroy method for the node which recursivly calls done to all the others becuase the node has a destructor
+	}
 }
 
+/**
+ * @deprecated
+ */
 void ExpressionTree::helper( ExpressionNode* node ) {
 	if ( !node ) {
 		return;
@@ -42,13 +49,20 @@ void ExpressionTree::helper( ExpressionNode* node ) {
 	}
 }
 
+void ExpressionTree::clear(){
+//	helper( root );
+	if( root ){
+		delete root;
+	}
+}
+
 void ExpressionTree::create( string postfix ) {
 	create( postfix, false );
 }
 
 void ExpressionTree::create( string postfix, bool isPostfix ) {
 	if ( isPostfix ) {
-		cout << "create: " << postfix << endl;
+//		cout << "create: " << postfix << endl;
 		equation = postfix;
 		//if exists and has collisions or if it doesn't exist
 		if ( hashmap.hasCollision( postfix ) || !hashmap.exists( postfix ) ) {
@@ -79,11 +93,23 @@ void ExpressionTree::create( string postfix, bool isPostfix ) {
 			}
 
 			root = tempStack.top( );
-			tempStack.pop( );
+			//make sure the stack is clean
+			while( !tempStack.empty() ){
+				tempStack.pop();
+			}
+		} else {
+			root = NULL;
 		}
 	} else {
 		create( convert( postfix ), true );
 	}
+}
+
+bool ExpressionTree::isStored(){
+	if( hashmap.exists( equation ) ){
+		return true;
+	}
+	return false;
 }
 
 void ExpressionTree::rInOrder( ExpressionNode *node ) {
@@ -125,19 +151,20 @@ void ExpressionTree::preOrder( ) {
 	cout << endl;
 }
 
-void ExpressionTree::evaluate( ) {
+string ExpressionTree::evaluate( ) {
 	if ( !equation.empty( ) ) {
 		if ( hashmap.exists( equation ) && !hashmap.hasCollision( equation ) ) {
-			cout << hashmap.at( equation );
+			return hashmap.at( equation );
 		} else if ( root ) {
 			string val = recursionEval( root );
-			cout << val << endl;
+//			cout << val << endl;
 
 			//store in a hash map
 			hashmap.put( equation, val );
+			return val;
 		}
 	}
-
+	return "";
 }
 
 string ExpressionTree::recursionEval( ExpressionNode* node ) {

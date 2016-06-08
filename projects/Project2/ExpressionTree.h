@@ -40,7 +40,9 @@ public:
 	void inOrder();
 	void postOrder();
 	void preOrder();
-	void evaluate();
+	string evaluate();
+	void clear();
+	bool isStored();
 };
 
 #endif /* EXPRESSIONTREE_H */

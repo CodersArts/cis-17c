@@ -26,13 +26,14 @@ HashTable::HashTable( int length ) {
 
 
 HashTable::~HashTable( ) {
-	delete [] this->table ;
+	delete [] this->table;
 }
 
 
 uint HashTable::hash(string key){
 	uint hash = RSHash( key );
 	uint index = hash % this->SIZE;
+	return index;
 }
 
 
@@ -58,6 +59,7 @@ string HashTable::at(string key){
 			return "collision"; //TODO fix this
 		}
 	}
+	return "";
 }
 
 
