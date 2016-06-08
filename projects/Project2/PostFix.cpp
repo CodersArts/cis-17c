@@ -7,6 +7,7 @@
 #include <sstream>
 #include <stack>
 #include <iostream>
+#include <cmath>
 #include "PostFix.h"
 
 using namespace std;
@@ -31,6 +32,23 @@ bool isOperator(char test, bool parenthesise) {
 
 bool isOperator(char test) {
 	return isOperator( test, true );
+}
+
+bool isOperator( string test ){
+	if( test.length() > 1){
+		bool op = isOperator( test[0], true );
+		bool num = isNumber( test[1] );
+		if( num && op ){ //negatives
+			return false;
+		} else if( num && !op ){ //decimals
+			return false;
+		} else {
+			return true;
+		}
+	} else {
+		return isOperator( test[0], true );
+	}
+	
 }
 
 bool isNumber(char test) {
@@ -147,7 +165,7 @@ string convert(string infix) {
 
 				if ( ( token.get( ) == '(' && ops.top( ) == '(' ) ||
 						( pemdas( ops.top( ) ) >= pemdas( token.get( ) ) ) ) { //if not an open paren and the stack is of higher or equal order pop into final
-					while ( ops.size( ) > 0 && !ops.top( ) == '(' && pemdas( ops.top( ) ) >= pemdas( token.get( ) ) ) {
+					while ( !ops.empty() && ops.top( ) != '(' && pemdas( ops.top( ) ) >= pemdas( token.get( ) ) ) {
 						postfix << ops.top( ) << " ";
 						ops.pop();
 					}

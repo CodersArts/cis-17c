@@ -62,7 +62,7 @@ void ExpressionTree::create( string postfix ) {
 
 void ExpressionTree::create( string postfix, bool isPostfix ) {
 	if ( isPostfix ) {
-//		cout << "create: " << postfix << endl;
+		cout << "create: " << postfix << endl;
 		equation = postfix;
 		//if exists and has collisions or if it doesn't exist
 		if ( hashmap.hasCollision( postfix ) || !hashmap.exists( postfix ) ) {
@@ -72,7 +72,7 @@ void ExpressionTree::create( string postfix, bool isPostfix ) {
 			string current;
 			while ( ss >> current ) {
 				//if number push to stack
-				if ( !isOperator( current[0] ) ) {
+				if ( !isOperator( current ) ) {
 					eq = new ExpressionNode( current );
 					tempStack.push( eq );
 				} else {
@@ -106,7 +106,7 @@ void ExpressionTree::create( string postfix, bool isPostfix ) {
 			cout << "invalid equation\n";
 			return;
 		}
-		create( convert( postfix ), true );
+		create( temp, true );
 	}
 }
 
@@ -173,7 +173,7 @@ string ExpressionTree::evaluate( ) {
 }
 
 string ExpressionTree::recursionEval( ExpressionNode* node ) {
-	if ( !isOperator( node->getData( )[0] ) ) { //if it has a value that is not an operator
+	if ( !isOperator( node->getData( ) ) ) { //if it has a value that is not an operator
 		return node->getData( );
 	} else {
 		string left = recursionEval( node->getLeft( ) );
@@ -191,7 +191,7 @@ string ExpressionTree::recursionEval( ExpressionNode* node ) {
 			result = op1 * op2;
 		} else if ( node->getData( )[0] == '/' ) {
 			result = op1 / op2;
-		} else if ( node->getData( )[0] == '-' ) {
+		} else if ( node->getData( )[0] == '^' ) {
 			result = pow( op1, op2 );
 		}
 

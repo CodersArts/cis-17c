@@ -23,6 +23,7 @@ using namespace std;
 bool isOperator(char test, bool parenthesise);
 
 bool isOperator(char test);
+bool isOperator(string test);
 
 bool isNumber(char test);
 
