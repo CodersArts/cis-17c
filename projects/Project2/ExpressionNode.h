@@ -56,10 +56,6 @@ public:
     ExpressionNode* getLeft() const {
     	return left;
     }
-	
-	
-private:
-
 };
 
 #endif /* EXPRESSIONNODE_H */
