@@ -16,9 +16,12 @@
 #include <string>
 #include <sstream>
 #include <map>
+#include <queue>
 
 #include "Stack.h"
 #include "sorting.h"
+#include "BinaryTree.h"
+#include "Graph.h"
 
 using namespace std;
 
@@ -30,7 +33,10 @@ int pHash( string );
 void p2( );
 float h( float, Stack<char> * );
 float g( float, Stack<char> * );
+void p3( );
 void p4( );
+void p5( );
+void p6( );
 short* fill( int );
 short* copyArr( short *, int );
 
@@ -45,14 +51,14 @@ int main( int argc, char** argv ) {
 				break;
 			case 2: p2( );
 				break;
-				//            case 3: p3();
-				//                break;
+			case 3: p3( );
+               break;
 			case 4: p4( );
 				break;
-				//            case 5: p5();
-				//                break;
-				//            case 6: p6();
-				//                break;
+			case 5: p5( );
+				break;
+			case 6: p6( );
+				break;
 			default:;
 		};
 	} while ( inN < 7 );
@@ -208,13 +214,20 @@ float g( float angR, Stack<char> *stack ) { //cosh
 
 //end p2
 
+//p3 fns
+
+void p3(){
+//	queue<int>
+}
+//end p3
+
 //p4 fns
 
 void p4( ) {
 	int size = 1000;
 	short *master = fill( size );
 	short *arr = copyArr( master, size );
-//	print( arr, size );
+	//	print( arr, size );
 	mt::uint count = 0;
 	bubbleSort( arr, size, count );
 	cout << "bubblesort operations: " << count << endl;
@@ -238,7 +251,9 @@ void p4( ) {
 	cout << "marksort operations: " << count << endl;
 	delete [] arr;
 	arr = copyArr( master, size );
-	
+
+	cout << "the only viable option for partial sorts is the selection sort\nsince it compares 1 element with the entire array ";
+
 	count = 0;
 	partialSort( arr, size, size * 0.10, count );
 	cout << "partial sort operations: " << count << endl;
@@ -264,3 +279,84 @@ short* copyArr( short *arr, int size ) {
 	return temp;
 }
 //end p4
+
+
+//p5 fns
+
+void p5( ) {
+	int size = 500;
+	BinaryTree<string> *tree = new BinaryTree<string>;
+	string str = "   ";
+
+	for ( int i = 0; i < size; i++ ) {
+		str[0] = (char) ( rand( ) % 26 + 65 );
+		str[1] = (char) ( rand( ) % 26 + 65 );
+		str[2] = (char) ( rand( ) % 26 + 65 );
+		tree->insert( str );
+	}
+	
+	string in;
+	getline( cin, in );
+	tree->find( in );
+
+
+	delete tree;
+}
+//end p5
+
+//p6 fns
+
+void p6( ) {
+	Graph graph;/*
+	graph.addVertex( "a" );
+	graph.addVertex( "b" );
+	graph.addVertex( "c" );
+	graph.addVertex( "d" );
+	graph.addVertex( "e" );
+	graph.addVertex( "f" );
+	graph.addVertex( "f" );
+	graph.addEdge( "a", 4, "b" );
+	graph.addEdge( "a", 7, "d" );
+	graph.addEdge( "a", 3, "c" );
+	graph.addEdge( "b", 1, "d" );
+	graph.addEdge( "b", 4, "f" );
+	graph.addEdge( "c", 3, "d" );
+	graph.addEdge( "c", 5, "e" );
+	graph.addEdge( "d", 2, "f" );
+	graph.addEdge( "d", 2, "e" );
+	graph.addEdge( "d", 7, "g" );
+	graph.addEdge( "e", 2, "g" );
+	graph.addEdge( "f", 4, "g" );*/
+	//graph.addEdge( "a", 4, "b");
+	//graph.addEdge( "a", 4, "c");
+	//graph.addEdge( "a", 6, "e");
+	//graph.addEdge( "a", 6, "d");
+	//graph.addEdge( "b", 2, "c");
+	//graph.addEdge( "c", 8, "d");
+	//graph.addEdge( "d", 9, "e");
+	//*
+	graph.addVertex("SFO");
+	graph.addVertex("ORD");
+	graph.addVertex("JFK");
+	graph.addVertex("DFW");
+	graph.addVertex("MIA");
+	graph.addVertex("LAX");
+	graph.addVertex("BOS");
+	
+	graph.addEdge( "SFO", 2704, "BOS" );
+	graph.addEdge( "SFO", 1846, "ORD" );
+	graph.addEdge( "ORD",  867, "BOS" );
+	graph.addEdge( "ORD",  740, "JFK" );
+	graph.addEdge( "JFK",  187, "BOS" );
+	graph.addEdge( "SFO", 1464, "DFW" );
+	graph.addEdge( "DFW",  802, "ORD" );
+	graph.addEdge( "DFW", 1121, "MIA" );
+	graph.addEdge( "MIA", 1090, "JFK" );
+	graph.addEdge( "MIA", 1258, "BOS" );
+	graph.addEdge( "SFO",  337, "LAX" );
+	graph.addEdge( "LAX", 1235, "DFW" );
+	graph.addEdge( "LAX", 2342, "MIA" );
+	//*/
+	graph.minSpan( );
+
+}

@@ -4,6 +4,10 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>BinaryNode.h</itemPath>
+      <itemPath>BinaryTree.h</itemPath>
+      <itemPath>Edge.h</itemPath>
+      <itemPath>Graph.h</itemPath>
       <itemPath>Stack.h</itemPath>
       <itemPath>sorting.h</itemPath>
     </logicalFolder>
@@ -14,6 +18,9 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <itemPath>BinaryNode.cpp</itemPath>
+      <itemPath>BinaryTree.cpp</itemPath>
+      <itemPath>Graph.cpp</itemPath>
       <itemPath>hyperbolics.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
     </logicalFolder>
@@ -39,6 +46,20 @@
       </toolsSet>
       <compileType>
       </compileType>
+      <item path="BinaryNode.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="BinaryNode.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="BinaryTree.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="BinaryTree.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Edge.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Graph.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Graph.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Stack.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="hyperbolics.cpp" ex="false" tool="1" flavor2="0">
@@ -68,6 +89,20 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
+      <item path="BinaryNode.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="BinaryNode.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="BinaryTree.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="BinaryTree.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Edge.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Graph.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Graph.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Stack.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="hyperbolics.cpp" ex="false" tool="1" flavor2="0">
