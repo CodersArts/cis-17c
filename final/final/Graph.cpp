@@ -122,6 +122,10 @@ void Graph::shortestPath(){
 			}
 		}
 		//set vertex visited and go to next one
+		for( map<string, int>::iterator it = distance.begin(); it != distance.end(); ++it ){
+			cout << "" << it->first << ":" << it->second << ", ";
+		}
+		cout << endl;
 		visited[current] = true;
 		current = lowest.first;
 		lowest = make_pair( current, INT_MAX );
