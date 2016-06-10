@@ -25,6 +25,12 @@
 
 using namespace std;
 
+struct Clerk {
+	bool busy;
+	int startTime;
+	int served;
+};
+
 void Menu( );
 int getN( );
 void def( int );
@@ -52,7 +58,7 @@ int main( int argc, char** argv ) {
 			case 2: p2( );
 				break;
 			case 3: p3( );
-               break;
+				break;
 			case 4: p4( );
 				break;
 			case 5: p5( );
@@ -216,8 +222,92 @@ float g( float angR, Stack<char> *stack ) { //cosh
 
 //p3 fns
 
-void p3(){
-//	queue<int>
+void p3( ) {
+	queue<int> customers;
+	vector< Clerk > clerks; //status, secs with customer
+
+	for ( int i = 0; i < 3; i++ ) {
+		Clerk clerk;
+		clerk.busy = false;
+		clerk.startTime = 0;
+		clerk.served = 0;
+		clerks.push_back( clerk );
+	}
+	int wait = 0;
+	bool waiting = true;
+	int runTime = 60 * 60;
+	int clerktimes[] = {60, 120, 80};
+	int totalCust = 0;
+	cout << "how many hours do you want to run: ";
+	cin >> runTime;
+	runTime*= 60*60;
+
+	//run the time
+	for ( int sec = 0; sec <= runTime; sec += 5 ) { //increment by 5 seconds
+		bool free = false;
+
+		//check if clerks are done
+		for ( int i = 0; i < clerks.size( ); i++ ) {
+			int delta = ( i > 2 ? 60 : clerktimes[i] );
+			if ( clerks[i].busy ) { //if clerk is busy
+				if ( clerks[i].startTime + delta == sec ) {
+					//if the time they started and the time it takes them to finish 1 person is == sec they are done
+					clerks[i].busy = false;
+					clerks[i].startTime = 0;
+					clerks[i].served++;
+					free = true;
+				}
+			}
+		}
+
+		if ( sec % 20 == 0 ) {
+			customers.push( 1 ); //add customer every 20 secs
+			totalCust++;
+		}
+
+		waiting = true;
+		if ( customers.size( ) > 0 ) {
+			//check for open clerk
+			for ( int i = 0; i < clerks.size( ); i++ ) {
+				if ( !( clerks[i].busy ) && customers.size( ) > 0 ) { //have to recheck size so dont add same guy to 3 tellers
+					waiting = false;
+					clerks[i].busy = true;
+					clerks[i].startTime = sec; //set the time with the customer
+					//derp remove customer
+					customers.pop( );
+				}
+			}
+			//if all clerks taken add time to wait for all the customers
+			wait += ( waiting ? 5 * customers.size( ) : 0 );
+		}
+		
+		//print status
+		if( sec % 10 == 0 && false ){
+			for ( int i = 0; i < clerks.size( ); ++i ) {
+				cout << setw(6) << sec << setw( 3 ) << i+1 << setw( 3 ) << ( clerks[i].busy ? "T" : "F" ) << endl;
+			}
+		}
+		//send more money we will send more stuff
+		if ( customers.size( ) > 5 && !free ) {
+			Clerk clerk;
+			clerk.busy = false;
+			clerk.startTime = 0;
+			clerk.served = 0;
+			clerks.push_back( clerk );
+		}
+		
+		if( customers.size() == 0 && clerks.size() > 3 ){
+			clerks.pop_back();
+		}
+	}
+
+	cout << "the number of customers is " << totalCust << endl;
+	for( int i = 0; i < clerks.size(); i++ ){
+		cout << "clerk " << i + 1 << " served " << clerks[i].served << endl;
+		
+	}
+	cout << "wait time " << waiting << endl;
+	cout << "average wait is " << ( wait / 60.0f ) / totalCust<< " minutes" << endl;
 }
 //end p3
 
@@ -294,7 +384,7 @@ void p5( ) {
 		str[2] = (char) ( rand( ) % 26 + 65 );
 		tree->insert( str );
 	}
-	
+
 	string in;
 	getline( cin, in );
 	tree->find( in );
@@ -307,14 +397,15 @@ void p5( ) {
 //p6 fns
 
 void p6( ) {
-	Graph graph;/*
+	Graph graph; 
+	//*
 	graph.addVertex( "a" );
 	graph.addVertex( "b" );
 	graph.addVertex( "c" );
 	graph.addVertex( "d" );
 	graph.addVertex( "e" );
 	graph.addVertex( "f" );
-	graph.addVertex( "f" );
+	graph.addVertex( "g" );
 	graph.addEdge( "a", 4, "b" );
 	graph.addEdge( "a", 7, "d" );
 	graph.addEdge( "a", 3, "c" );
@@ -326,7 +417,8 @@ void p6( ) {
 	graph.addEdge( "d", 2, "e" );
 	graph.addEdge( "d", 7, "g" );
 	graph.addEdge( "e", 2, "g" );
-	graph.addEdge( "f", 4, "g" );*/
+	graph.addEdge( "f", 4, "g" );
+	//*/
 	//graph.addEdge( "a", 4, "b");
 	//graph.addEdge( "a", 4, "c");
 	//graph.addEdge( "a", 6, "e");
@@ -334,29 +426,30 @@ void p6( ) {
 	//graph.addEdge( "b", 2, "c");
 	//graph.addEdge( "c", 8, "d");
 	//graph.addEdge( "d", 9, "e");
-	//*
-	graph.addVertex("SFO");
-	graph.addVertex("ORD");
-	graph.addVertex("JFK");
-	graph.addVertex("DFW");
-	graph.addVertex("MIA");
-	graph.addVertex("LAX");
-	graph.addVertex("BOS");
-	
+	/*
+	graph.addVertex( "SFO" );
+	graph.addVertex( "ORD" );
+	graph.addVertex( "JFK" );
+	graph.addVertex( "DFW" );
+	graph.addVertex( "MIA" );
+	graph.addVertex( "LAX" );
+	graph.addVertex( "BOS" );
+
 	graph.addEdge( "SFO", 2704, "BOS" );
 	graph.addEdge( "SFO", 1846, "ORD" );
-	graph.addEdge( "ORD",  867, "BOS" );
-	graph.addEdge( "ORD",  740, "JFK" );
-	graph.addEdge( "JFK",  187, "BOS" );
+	graph.addEdge( "ORD", 867, "BOS" );
+	graph.addEdge( "ORD", 740, "JFK" );
+	graph.addEdge( "JFK", 187, "BOS" );
 	graph.addEdge( "SFO", 1464, "DFW" );
-	graph.addEdge( "DFW",  802, "ORD" );
+	graph.addEdge( "DFW", 802, "ORD" );
 	graph.addEdge( "DFW", 1121, "MIA" );
 	graph.addEdge( "MIA", 1090, "JFK" );
 	graph.addEdge( "MIA", 1258, "BOS" );
-	graph.addEdge( "SFO",  337, "LAX" );
+	graph.addEdge( "SFO", 337, "LAX" );
 	graph.addEdge( "LAX", 1235, "DFW" );
 	graph.addEdge( "LAX", 2342, "MIA" );
 	//*/
-	graph.minSpan( );
+//	graph.minSpan( );
+	graph.shortestPath();
 
 }

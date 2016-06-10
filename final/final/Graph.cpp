@@ -15,6 +15,8 @@
 #include <algorithm>
 #include <iostream>
 #include <set>
+#include <math.h>
+#include <climits>
 
 #include "Graph.h"
 using namespace std;
@@ -41,55 +43,112 @@ void Graph::addEdge(string src, int weight, string dest){
 }
 
 void Graph::minSpan(){
-	//get edges sorted by weight
-	sort( edges.begin(), edges.end() );
+	//have to make a disjunct set 
+	// https://en.wikipedia.org/wiki/Disjoint-set_data_structure
 	vector<Edge> shortest;
-	set<string> *visited = new set<string>;
 	
+	for( vecSIt it = vertexs.begin(); it != vertexs.end(); ++it ){
+		makeSet( *it );
+	}
+	
+	sort( edges.begin(), edges.end() );
 	for( vecEIt it = edges.begin(); it != edges.end(); ++it ){
-//		cout << it->GetSource() << " to " << it->GetDestination() << endl;
-		//if src vertex is visted
-		if( formsCycle( visited, *it ) ) {
-			cout << "ignoring " <<  it->GetSource() << " to " << it->GetDestination() << endl;
-			continue;
-		} else {
-			cout << it->GetSource() << " to " << it->GetDestination() << endl;
+		string r1 = find( it->GetSource() );
+		string r2 = find( it->GetDestination() );
+		if( r1 != r2 ){
 			shortest.push_back( *it );
-			visited->insert( it->GetSource() );
-			visited->insert( it->GetDestination() );
+			unionize( r1, r2 );
 		}
+		
 	}
 	
 	for( vecEIt it = shortest.begin(); it != shortest.end(); ++it ){
 		cout<< it->GetSource() << ", " << it->GetWeight() << ", " << it->GetDestination() << endl;
 	}
-	
-	delete visited;
 }
 
-bool Graph::formsCycle( set<string>* visited, Edge current ) {
-	string src = current.GetSource();
-	string dest = current.GetDestination();
-	bool f[] = {false, false};
-	for( setSIt it = visited->begin(); it != visited->end(); ++it ){
-		cout << "\tform" << *it << endl;
-		if( *it == src ){
-			f[0] = true;
-		}
-		if( *it == dest ){
-			f[1] = true;
-		}
+string Graph::find( string vertex ){
+	if (parent[vertex] == vertex) {
+		return parent[vertex];
+	} else{ 
+		return find(parent[vertex]);	
 	}
-	
-	if( f[0] && f[1] ){
-		return true;
+}
+
+void Graph::unionize( string v1, string v2 ){
+	if( rank[v1] > rank[v2] ){
+		parent[v2] = v1;
+	} else if( rank[v2] > rank[v1] ){
+		parent[v1] = v2;
 	} else {
-		return false;
+		parent[v1] = v2;
+		rank[v2]++;
 	}
+}
+
+void Graph::makeSet( string v ){
+	parent[v] = v;
+	rank[v] = 0;
 }
 
 void Graph::shortestPath(){
+	map<string, int> distance;
+	map<string, bool> visited;
 	
+	for( vecSIt it = vertexs.begin(); it != vertexs.end(); ++it ){
+		visited[*it] = false;
+		distance[*it] = INT_MAX;
+	}
+	int index = 0;
+	string current = vertexs[index];
+	distance[current] = 0;
+	visited[current] = true;
+	pair<string, int> lowest = make_pair( current, INT_MAX );
+	
+	//go through all the node conected to current
+	while( hasVisited( visited ) ){
+		for( vecEIt it = edges.begin(); it != edges.end(); ++it ){
+			string src = it->GetSource();
+			string dest = it->GetDestination();
+			if( src == current ){ //then get the weights
+				int dw = distance[dest];
+				int mw = distance[current];
+				int ew = it->GetWeight();
+				distance[dest] = min( dw, ( mw + ew )  );
+				if( distance[dest] < lowest.second && !visited[dest] ){
+					lowest.first = dest;
+					lowest.second = distance[dest];
+				}
+			}
+		}
+		//set vertex visited and go to next one
+		visited[current] = true;
+		current = lowest.first;
+		lowest = make_pair( current, INT_MAX );
+	}
+	/*
+	it->GetSource()
+	it->GetDestination()
+	it->GetWeight()
+	*/
 }
 
+bool Graph::hasVisited(map<string,bool> visited){
+	bool done = true;
+	for( map<string, bool>::iterator it = visited.begin(); it != visited.end(); ++it ){
+		if( !it->second ){
+			done = false;
+			break;
+		}
+	}
+	return !done;
+}
 
+//string Graph::isVisited( map<string, bool> visited, string v ){
+//	for( map<string, bool>::iterator it = visited.begin(); it != visited.end(); ++it ){
+//		if( !it->second ){
+//			return it->first;
+//		}
+//	}
+//	return "";
+//}

@@ -17,11 +17,15 @@
 #include <vector>
 #include <set>
 #include "Edge.h"
+#include <map>
 
 using namespace std;
 
 class Graph {
 private:
+
+	map<string, string> parent;
+	map<string, int> rank;
 	int vertexSize;
 	vector<string> vertexs;
 	vector<Edge> edges;
@@ -33,7 +37,11 @@ public:
 	void addEdge( string src, int weight, string dest );
 	void minSpan();
 	void shortestPath();
-
+	bool hasVisited( map<string, bool> );
+//	bool isVisited( map<string, bool>, string v );
+	string find( string vertex );
+	void unionize( string v1, string v2 );
+	void makeSet( string v );
 };
 
 #endif /* GRAPH_H */
