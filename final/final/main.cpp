@@ -306,7 +306,7 @@ void p3( ) {
 		cout << "clerk " << i + 1 << " served " << clerks[i].served << endl;
 		
 	}
-	cout << "wait time " << waiting << endl;
+	//cout << "wait time " << waiting << endl;
 	cout << "average wait is " << ( wait / 60.0f ) / totalCust<< " minutes" << endl;
 }
 //end p3
@@ -314,40 +314,59 @@ void p3( ) {
 //p4 fns
 
 void p4( ) {
-	int size = 1000;
+	int size = 100000;
 	short *master = fill( size );
 	short *arr = copyArr( master, size );
+	long s, e;
 	//	print( arr, size );
 	mt::uint count = 0;
+	s = time( 0 );
 	bubbleSort( arr, size, count );
+	e = time( 0 );
 	cout << "bubblesort operations: " << count << endl;
+	cout << "bubblesort time: " << (e-s) << endl;
 	delete [] arr;
 	arr = copyArr( master, size );
 
 	count = 0;
+	s = time( 0 );
 	quickSort( arr, size, count );
+	e = time( 0 );
 	cout << "quicksort operations: " << count << endl;
+	cout << "quicksort time: " << (e-s) << endl;
 	delete [] arr;
 	arr = copyArr( master, size );
 
 	count = 0;
+	s = time( 0 );
 	mergeSort( arr, size, count );
+	e = time( 0 );
 	cout << "merge sort operations: " << count << endl;
+	cout << "merge sort time: " << (e-s) << endl;
 	delete [] arr;
 	arr = copyArr( master, size );
 
 	count = 0;
+	s = time( 0 );
 	markSort( arr, size, count );
+	e = time( 0 );
 	cout << "marksort operations: " << count << endl;
+	cout << "marksort time: " << (e-s) << endl;
 	delete [] arr;
 	arr = copyArr( master, size );
 
-	cout << "the only viable option for partial sorts is the selection sort\nsince it compares 1 element with the entire array ";
+	cout << "the only viable option for partial sorts is the selection sort\nsince it compares 1 element with the entire array\n";
 
 	count = 0;
-	partialSort( arr, size, size * 0.10, count );
+	int in = 10;
+	cout << "input partial sort stop: ";
+	cin >> in;
+	s = time( 0 );
+	partialSort( arr, size, in, count );
+	e = time( 0 );
 	cout << "partial sort operations: " << count << endl;
-	print( arr, size );
+	cout << "partial sort time: " << (e-s) << endl;
+//	print( arr, size );
 
 	delete [] arr;
 	delete [] master;
@@ -376,6 +395,7 @@ short* copyArr( short *arr, int size ) {
 void p5( ) {
 	int size = 500;
 	BinaryTree<string> *tree = new BinaryTree<string>;
+	cout << "Tree contains\n";
 	string str = "   ";
 
 	for ( int i = 0; i < size; i++ ) {
@@ -384,10 +404,13 @@ void p5( ) {
 		str[2] = (char) ( rand( ) % 26 + 65 );
 		tree->insert( str );
 	}
-
+/*
 	string in;
+	cout << "\n\nEnter a string to find: ";
 	getline( cin, in );
 	tree->find( in );
+	*/
+	cout << "\nAt most it will take " << ceil( log( size ) / log( 2 ) ) +1<< " times to find";
 
 
 	delete tree;
@@ -397,8 +420,35 @@ void p5( ) {
 //p6 fns
 
 void p6( ) {
+	Graph g(7);
+    vector<string> names;
+    names.push_back("SFO");
+    names.push_back("ORD");
+    names.push_back("JFK");
+    names.push_back("DFW");
+    names.push_back("MIA");
+    names.push_back("LAX");
+    names.push_back("BOS");
+    g.addNames(names);
+    g.addEdge("SFO","BOS",2704);
+    g.addEdge("SFO","ORD",1846);
+    g.addEdge("ORD","BOS",867);
+    g.addEdge("ORD","JFK",740);
+    g.addEdge("JFK","BOS",187);
+    g.addEdge("SFO","DFW",1464);
+    g.addEdge("DFW","ORD",802);
+    g.addEdge("DFW","MIA",1121);
+    g.addEdge("MIA","JFK",1090);
+    g.addEdge("MIA","BOS",1258);
+    g.addEdge("SFO","LAX",337);
+    g.addEdge("LAX","DFW",1235);
+    g.addEdge("LAX","MIA",2342);
+    g.krusMST();
+    g.shortestPath("BOS","LAX");
+	
+	
+	/*
 	Graph graph; 
-	//*
 	graph.addVertex( "a" );
 	graph.addVertex( "b" );
 	graph.addVertex( "c" );
@@ -450,6 +500,6 @@ void p6( ) {
 	graph.addEdge( "LAX", 2342, "MIA" );
 	//*/
 //	graph.minSpan( );
-	graph.shortestPath();
+//	graph.shortestPath();
 
 }

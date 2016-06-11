@@ -24,6 +24,7 @@ using namespace std;
 template <class T>
 class BinaryTree {
 private:
+	int size;
 	BinaryNode<T> *root;
 	void rInOrder( BinaryNode<T> *node ){
 		if( node ){
@@ -51,7 +52,8 @@ private:
 			if( node->GetLeft() ){
 				insertNode( data, node->GetLeft() );
 			} else {
-				cout << node->GetData() << " - L" << endl;
+				cout << node->GetData() << " - L,  ";
+				if( ++size % 10 == 0 )cout << endl;
 				BinaryNode<T> *tempNode = new BinaryNode<T>( data );
 				node->SetLeft( tempNode );
 			}
@@ -60,7 +62,8 @@ private:
 				insertNode( data, node->GetRight() );
 			} else {
 				BinaryNode<T> *tempNode = new BinaryNode<T>( data );
-				cout << node->GetData() << " - R" << endl;
+				cout << node->GetData() << " - R,  ";
+				if( ++size % 10 == 0 )cout << endl;
 				node->SetRight( tempNode );
 			}
 		}
@@ -83,6 +86,7 @@ private:
 public:
 	BinaryTree(){
 		root = NULL;
+		size = 0;
 	}
 	virtual ~BinaryTree(){
 		delete root;
